@@ -411,8 +411,6 @@ void editorRefreshScreen() {
   editorDrawRows(&ab);
 
   char buf[32];
-  if (E.cx > E.row[E.cy].size)
-    E.cx = E.row[E.cy].size;
 
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy - E.rowoff + 1,
            E.cx - E.coloff + 1);
@@ -459,6 +457,12 @@ void editorMoveCursor(int key) {
     }
     break;
   }
+  }
+
+  row = (E.cy >= E.numrows) ? NULL : &E.row[E.cy];
+  int rowlen = row ? row->size : 0;
+  if (E.cx > rowlen) {
+    E.cx = rowlen;
   }
 }
 
