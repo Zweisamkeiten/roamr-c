@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
@@ -148,17 +149,55 @@ int getWindowSize(int *rows, int *cols) {
   }
 }
 
+/*** append buffer ***/
+
+typedef struct abuf_t {
+  char *b;
+  int len;
+} abuf;
+
+#define ABUF_INIT                                                              \
+  { NULL, 0 }
+
+/**
+ * @brief Append a string s to an abuf.
+ *
+ * @param ab append buf
+ * @param s string
+ * @param len length
+ */
+void abAppend(abuf *ab, const char *s, int len) {
+  char *new = realloc(ab->b, ab->len + len);
+
+  if (new == NULL) {
+    return;
+  }
+
+  memcpy(&new[ab->len], s, len);
+  ab->b = new;
+  ab->len += len;
+}
+
+/**
+ * @brief deallocates the dynamic memory used by abuf.
+ *
+ * @param ab append buf
+ */
+void abFree(abuf *ab) { free(ab->b); }
+
 /*** output ***/
 
 /**
  * @brief Draw a column of tildes(~) on the left of the screen, like vim.
+ *
+ * @param ab write() the append buf contens out to standard
  */
-void editorDrawRows() {
+void editorDrawRows(abuf *ab) {
   for (int i = 0; i < E.screenrows; i++) {
-    write(STDOUT_FILENO, "~", 1);
+    abAppend(ab, "~", 1);
 
     if (i < E.screenrows - 1) {
-      write(STDOUT_FILENO, "\r\n", 2);
+      abAppend(ab, "\r\n", 2);
     }
   }
 }
@@ -167,12 +206,17 @@ void editorDrawRows() {
  * @brief Clear the screen
  */
 void editorRefreshScreen() {
-  write(STDOUT_FILENO, "\x1b[2J", 4);
-  write(STDOUT_FILENO, "\x1b[H", 3);
+  abuf ab = ABUF_INIT;
 
-  editorDrawRows();
+  abAppend(&ab, "\x1b[2J", 4);
+  abAppend(&ab, "\x1b[H", 3);
 
-  write(STDERR_FILENO, "\x1b[H", 3);
+  editorDrawRows(&ab);
+
+  abAppend(&ab, "\x1b[H", 3);
+
+  write(STDOUT_FILENO, ab.b, ab.len);
+  abFree(&ab);
 }
 
 /*** input ***/
