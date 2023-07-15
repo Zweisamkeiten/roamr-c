@@ -389,7 +389,6 @@ void editorScroll() {
   E.rx = 0;
   if (E.cy < E.numrows) {
     E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
-    return;
   }
 
   if (E.cy < E.rowoff) {
