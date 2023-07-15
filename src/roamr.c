@@ -196,6 +196,7 @@ void editorDrawRows(abuf *ab) {
   for (int i = 0; i < E.screenrows; i++) {
     abAppend(ab, "~", 1);
 
+    abAppend(ab, "\x1b[K", 3);
     if (i < E.screenrows - 1) {
       abAppend(ab, "\r\n", 2);
     }
@@ -209,7 +210,6 @@ void editorRefreshScreen() {
   abuf ab = ABUF_INIT;
 
   abAppend(&ab, "\x1b[?25l]h", 6);
-  abAppend(&ab, "\x1b[2J", 4);
   abAppend(&ab, "\x1b[H", 3);
 
   editorDrawRows(&ab);
