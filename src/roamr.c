@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
@@ -7,15 +8,30 @@
 struct termios orig_termios;
 
 /**
+ * @brief Error handling
+ *
+ * @param s error message
+ */
+void die(const char *s) {
+  // perror looks at the global `errno` and print *s before error message.
+  perror(s);
+  exit(EXIT_FAILURE);
+}
+
+/**
  * @brief Disable raw mode at exit
  */
-void disableRawMode() { tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios); }
+void disableRawMode() {
+  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1)
+    die("tcsetattr");
+}
 
 /**
  * @brief Turn off echoing
  */
 void enableRawMode() {
-  tcgetattr(STDIN_FILENO, &orig_termios);
+  if (tcgetattr(STDIN_FILENO, &orig_termios) == -1)
+    die("tcsetattr");
   atexit(disableRawMode);
 
   struct termios raw = orig_termios;
@@ -35,7 +51,9 @@ int main(int argc, char *argv[]) {
 
   while (1) {
     char c = '\0';
-    read(STDIN_FILENO, &c, 1);
+    // when read timeout return -1 & errno EAGAIN
+    if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
+      die("read");
 
     if (iscntrl(c)) {
       printf("%d\r\n", c);
