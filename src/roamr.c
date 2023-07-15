@@ -1,3 +1,5 @@
+/*** include ***/
+
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -5,7 +7,11 @@
 #include <termios.h>
 #include <unistd.h>
 
+/*** data ***/
+
 struct termios orig_termios;
+
+/*** terminal ***/
 
 /**
  * @brief Error handling
@@ -45,6 +51,8 @@ void enableRawMode() {
 
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
+
+/*** init ***/
 
 int main(int argc, char *argv[]) {
   enableRawMode();
