@@ -29,10 +29,17 @@ enum editorKey {
 
 /*** data ***/
 
+typedef struct erow_t {
+  int size;
+  char *chars;
+} erow;
+
 typedef struct editorConfig_t {
   int cx, cy;
   int screenrows;
   int screencols;
+  int numrows;
+  erow row;
   struct termios orig_termios;
 } editor_Config;
 
@@ -227,6 +234,18 @@ int getWindowSize(int *rows, int *cols) {
   }
 }
 
+/*** file i/o ***/
+void editorOpen() {
+  char *line = "Hello, world!";
+  ssize_t linelen = 13;
+
+  E.row.size = linelen;
+  E.row.chars = malloc(linelen + 1);
+  memcpy(E.row.chars, line, linelen);
+  E.row.chars[linelen] = '\0';
+  E.numrows = 1;
+}
+
 /*** append buffer ***/
 
 typedef struct abuf_t {
@@ -272,27 +291,34 @@ void abFree(abuf *ab) { free(ab->b); }
  */
 void editorDrawRows(abuf *ab) {
   for (int i = 0; i < E.screenrows; i++) {
-    if (i == E.screenrows / 3) {
-      char welcome[80];
-      int welcomelen = snprintf(welcome, sizeof(welcome),
-                                "Roamr editor -- version %s", ROAMR_VERSION);
-      if (welcomelen > E.screencols) {
-        welcomelen = E.screencols;
-      }
+    if (i >= E.numrows) {
+      if (i == E.screenrows / 3) {
+        char welcome[80];
+        int welcomelen = snprintf(welcome, sizeof(welcome),
+                                  "Roamr editor -- version %s", ROAMR_VERSION);
+        if (welcomelen > E.screencols) {
+          welcomelen = E.screencols;
+        }
 
-      // center
-      int padding = (E.screencols - welcomelen) / 2;
-      if (padding) {
+        // center
+        int padding = (E.screencols - welcomelen) / 2;
+        if (padding) {
+          abAppend(ab, "~", 1);
+          padding--;
+        }
+        while (padding--) {
+          abAppend(ab, " ", 1);
+        }
+
+        abAppend(ab, welcome, welcomelen);
+      } else {
         abAppend(ab, "~", 1);
-        padding--;
       }
-      while (padding--) {
-        abAppend(ab, " ", 1);
-      }
-
-      abAppend(ab, welcome, welcomelen);
     } else {
-      abAppend(ab, "~", 1);
+      int len = E.row.size;
+      if (len > E.screencols)
+        len = E.screencols;
+      abAppend(ab, E.row.chars, len);
     }
 
     abAppend(ab, "\x1b[K", 3);
@@ -402,6 +428,7 @@ void editorProcessKeypress() {
 void initEditor() {
   E.cx = 0;
   E.cy = 0;
+  E.numrows = 0;
 
   if (getWindowSize(&E.screenrows, &E.screencols) == -1)
     die("getWindowSize");
@@ -410,6 +437,7 @@ void initEditor() {
 int main(int argc, char *argv[]) {
   enableRawMode();
   initEditor();
+  editorOpen();
 
   while (1) {
     editorRefreshScreen();
