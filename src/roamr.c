@@ -80,11 +80,24 @@ char editorReadKey() {
 /*** output ***/
 
 /**
+ * @brief Draw a column of tildes(~) on the left of the screen, like vim.
+ */
+void editorDrawRows() {
+  for (int i = 0; i < 24; i++) {
+    write(STDOUT_FILENO, "~\r\n", 3);
+  }
+}
+
+/**
  * @brief Clear the screen
  */
 void editorRefreshScreen() {
   write(STDOUT_FILENO, "\x1b[2J", 4);
   write(STDOUT_FILENO, "\x1b[H", 3);
+
+  editorDrawRows();
+
+  write(STDERR_FILENO, "\x1b[H", 3);
 }
 
 /*** input ***/
