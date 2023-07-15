@@ -155,7 +155,11 @@ int getWindowSize(int *rows, int *cols) {
  */
 void editorDrawRows() {
   for (int i = 0; i < E.screenrows; i++) {
-    write(STDOUT_FILENO, "~\r\n", 3);
+    write(STDOUT_FILENO, "~", 1);
+
+    if (i < E.screenrows - 1) {
+      write(STDOUT_FILENO, "\r\n", 2);
+    }
   }
 }
 
