@@ -1,8 +1,8 @@
 # tool macros
 CC ?= gcc# FILL: the compiler
-CCFLAGS := -O2 -Wall -Werror # FILL: compile flags
+CCFLAGS := -O2 -Wall -Werror -pedantic # FILL: compile flags
 DBGFLAGS := -g
-CCOBJFLAGS := -O2 -Wall -Werror $(CCOBJFLAGS) -c
+CCOBJFLAGS := -O2 -Wall -Werror -pedantic $(CCOBJFLAGS) -c
 
 # path macros
 BIN_PATH := bin
