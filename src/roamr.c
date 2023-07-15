@@ -43,6 +43,7 @@ typedef struct erow_t {
 
 typedef struct editorConfig_t {
   int cx, cy;
+  int rx;
   int rowoff;
   int coloff;
   int screenrows;
@@ -246,6 +247,25 @@ int getWindowSize(int *rows, int *cols) {
 /*** row opearations ***/
 
 /**
+ * @brief loop through all the characters to the left of cx, and figure out how
+ many spaces each tab takes up.
+ *
+ * @param row current row
+ * @param cx char x
+ * @return render x
+ */
+int editorRowCxToRx(erow *row, int cx) {
+  int rx = 0;
+  for (int j = 0; j < cx; j++) {
+    if (row->chars[j] == '\t') {
+      rx += (ROAMR_TAB_STOP - 1) - (rx % ROAMR_TAB_STOP);
+    }
+    rx++;
+  }
+  return rx;
+}
+
+/**
  * @brief render tabs as multiple space characters
  *
  * @param row row
@@ -366,6 +386,12 @@ void abFree(abuf *ab) { free(ab->b); }
  * @brief rowoff calculate
  */
 void editorScroll() {
+  E.rx = 0;
+  if (E.cy < E.numrows) {
+    E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
+    return;
+  }
+
   if (E.cy < E.rowoff) {
     E.rowoff = E.cy;
     return;
@@ -376,13 +402,13 @@ void editorScroll() {
     return;
   }
 
-  if (E.cx < E.coloff) {
-    E.coloff = E.cx;
+  if (E.rx < E.coloff) {
+    E.coloff = E.rx;
     return;
   }
 
-  if (E.cx >= E.coloff + E.screencols) {
-    E.coloff = E.cx - E.screencols + 1;
+  if (E.rx >= E.coloff + E.screencols) {
+    E.coloff = E.rx - E.screencols + 1;
     return;
   }
 }
@@ -450,7 +476,7 @@ void editorRefreshScreen() {
   char buf[32];
 
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy - E.rowoff + 1,
-           E.cx - E.coloff + 1);
+           E.rx - E.coloff + 1);
   abAppend(&ab, buf, strlen(buf));
 
   abAppend(&ab, "\x1b[?25h", 6);
@@ -552,6 +578,7 @@ void editorProcessKeypress() {
 void initEditor() {
   E.cx = 0;
   E.cy = 0;
+  E.rx = 0;
   E.rowoff = 0;
   E.coloff = 0;
   E.numrows = 0;
