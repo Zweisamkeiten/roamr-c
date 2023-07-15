@@ -411,6 +411,9 @@ void editorRefreshScreen() {
   editorDrawRows(&ab);
 
   char buf[32];
+  if (E.cx > E.row[E.cy].size)
+    E.cx = E.row[E.cy].size;
+
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy - E.rowoff + 1,
            E.cx - E.coloff + 1);
   abAppend(&ab, buf, strlen(buf));
@@ -429,6 +432,8 @@ void editorRefreshScreen() {
  * @param key key enum
  */
 void editorMoveCursor(int key) {
+  erow *row = (E.cy >= E.numrows) ? NULL : &E.row[E.cy];
+
   switch (key) {
   case ARROW_LEFT: {
     if (E.cx != 0) {
@@ -449,7 +454,9 @@ void editorMoveCursor(int key) {
     break;
   }
   case ARROW_RIGHT: {
-    E.cx++;
+    if (row && E.cx < row->size) {
+      E.cx++;
+    }
     break;
   }
   }
