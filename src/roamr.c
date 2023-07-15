@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -14,6 +15,8 @@
 /*** data ***/
 
 typedef struct editorConfig_t {
+  int screenrows;
+  int screencols;
   struct termios orig_termios;
 } editor_Config;
 
@@ -81,13 +84,32 @@ char editorReadKey() {
   return c;
 }
 
+/**
+ * @brief get terminal WindowSize
+ *
+ * @param rows editor E struct
+ * @param cols editor E struct
+ * @return success or not.
+ */
+int getWindowSize(int *rows, int *cols) {
+  struct winsize ws;
+
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+    return -1;
+  } else {
+    *cols = ws.ws_col;
+    *rows = ws.ws_row;
+    return 0;
+  }
+}
+
 /*** output ***/
 
 /**
  * @brief Draw a column of tildes(~) on the left of the screen, like vim.
  */
 void editorDrawRows() {
-  for (int i = 0; i < 24; i++) {
+  for (int i = 0; i < E.screenrows; i++) {
     write(STDOUT_FILENO, "~\r\n", 3);
   }
 }
@@ -121,8 +143,17 @@ void editorProcessKeypress() {
 
 /*** init ***/
 
+/**
+ * @brief initialize all the fields in the E struct
+ */
+void initEditor() {
+  if (getWindowSize(&E.screenrows, &E.screencols) == -1)
+    die("getWindowSize");
+}
+
 int main(int argc, char *argv[]) {
   enableRawMode();
+  initEditor();
 
   while (1) {
     editorRefreshScreen();
