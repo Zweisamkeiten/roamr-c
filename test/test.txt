@@ -1,20 +1,200 @@
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
-Hello, world!!!!!!!!!!
+Name            : deskreen
+Version         : 2.0.4-3
+Description     : Turns any device with a web browser to a second screen for your computer
+URL             : https://deskreen.com
+
+Name            : easyconnect
+Version         : 7.6.7.3.76b7ebc57725ae1e999151cdc215f8e7cef8a31b-1
+Description     : Support access to ssl vpn. With easyconect，you can secure and speed up connection to cooperate network at ease!
+URL             : http://www.sangfor.com.cn
+
+Name            : fcitx5-pinyin-zhwiki-rime
+Version         : 20221120-1
+Description     : Fcitx 5 Pinyin Dictionary from zh.wikipedia.org for rime
+URL             : https://github.com/felixonmars/fcitx5-pinyin-zhwiki
+
+Name            : fpp-git
+Version         : 0.9.5.r6.g32ec43d-1
+Description     : TUI that lets you pick paths out of its stdin and run arbitrary commands on them
+URL             : https://facebook.github.io/PathPicker
+
+Name            : gprof2dot
+Version         : 2021.2.21-1
+Description     : A Python script to convert the output from many profilers into a dot graph.
+URL             : https://github.com/jrfonseca/gprof2dot/
+
+Name            : hnwatch
+Version         : 1.24-1
+Description     : a HackerNews API realtime terminal watch/reader
+URL             : https://2ton.com.au/hnwatch/
+
+Name            : httptoolkit-bin
+Version         : 1.12.0-1
+Description     : Beautiful, cross-platform & open-source HTTP(S) proxy, analyzer and client.
+URL             : https://httptoolkit.tech/
+
+Name            : icdiff
+Version         : 2.0.5-1
+Description     : Improved colored diff
+URL             : https://github.com/jeffkaufman/icdiff
+
+Name            : kb
+Version         : 0.1.7-1
+Description     : A command line minimalist knowledge base manager
+URL             : https://github.com/gnebbia/kb
+
+Name            : libxft-bgra
+Version         : 2.3.4-1
+Description     : X FreeType library with support for BGRA glyphs and scaling.
+URL             : https://xorg.freedesktop.org
+
+Name            : lightdm-settings
+Version         : 1.5.9-1
+Description     : A configuration tool for the LightDM display manager
+URL             : https://github.com/linuxmint/lightdm-settings
+
+Name            : linuxqq-nt-bwrap
+Version         : 3.0.0_571-1
+Description     : Tencent QQ NT for Linux with bubblewrap wrapper
+URL             : https://im.qq.com/linuxqq/index.shtml
+
+Name            : lyx
+Version         : 2.3.6.1-6
+Description     : An advanced WYSIWYM document processor & LaTeX front-end
+URL             : https://www.lyx.org
+
+Name            : makedepend
+Version         : 1.0.6-2
+Description     : Create dependencies in Makefiles
+URL             : http://www.linuxfromscratch.org/blfs/view/7.4/x/makedepend.html
+
+Name            : mongodb-compass
+Version         : 1.35.0-1
+Description     : The MongoDB GUI
+URL             : https://www.mongodb.com/products/compass
+
+Name            : mongosh-bin
+Version         : 1.6.0-1
+Description     : An interactive shell to connect with MongoDB with syntax highlighting, autocomplete, contextual help and error messages.
+URL             : https://github.com/mongodb-js/mongosh.git
+
+Name            : navi
+Version         : 2.20.1-1
+Description     : An interactive cheatsheet tool for the command-line
+URL             : https://github.com/denisidoro/navi
+
+Name            : otf-fandol
+Version         : 0.3-3
+Description     : Four basic fonts for Chinese typesetting: Song, Hei, Kai, Fang
+URL             : https://www.ctan.org/pkg/fandol
+
+Name            : palenight-gtk-theme
+Version         : 0.2.3-1
+Description     : Palenight GTK theme & icon set: built with the GTK Theme Framework
+URL             : https://github.com/jaxwilko/gtk-theme-framework
+
+Name            : pokemon-colorscripts-git
+Version         : r112.0483c85-1
+Description     : CLI utility that prints unicode sprites of pokemon to the terminal
+URL             : https://gitlab.com/phoneybadger/pokemon-colorscripts.git
+
+Name            : rime-flypy
+Version         : 10.9.2-1
+Description     : 小鹤音形 rime 挂接文件
+URL             : http://flypy.com/
+
+Name            : sdl2-manpage-git
+Version         : r212.ac7d372-1
+Description     : Man-pages generated for SDL2.
+URL             : https://github.com/haxpor/sdl2-manpage
+
+Name            : texlive-local-forest
+Version         : 57398-1
+Description     : TeX Live - local installation of CTAN package forest
+URL             : http://tug.org/texlive/
+
+Name            : texlive-local-pgfopts
+Version         : 56615-1
+Description     : TeX Live - local installation of CTAN package pgfopts
+URL             : http://tug.org/texlive/
+
+Name            : tllocalmgr-git
+Version         : v0.8.r6.9958378-1
+Description     : A shell and command-line utility to manage TeXLive on Arch Linux
+URL             : https://github.com/hv15/tllocalmgr
+
+Name            : ttf-adobe-fangsong
+Version         : 5.010-1
+Description     : One fonts of Adobe's AdobeFangsongStd.R style.
+URL             : http://www.adobe.com
+
+Name            : ttf-adobe-heiti
+Version         : 5.005-3
+Description     : One fonts of Adobe's AdobeHeitiStd.R style.
+URL             : http://www.adobe.com
+
+Name            : ttf-adobe-kaiti
+Version         : 5.010-1
+Description     : One fonts of Adobe's AdobeKaitiStd.R style.
+URL             : http://www.adobe.com
+
+Name            : ttf-adobe-song
+Version         : 5.002-3
+Description     : One fonts of Adobe's AdobeSongStd.L style.
+URL             : http://www.adobe.com
+
+Name            : ttf-nothingyoucoulddo
+Version         : 1.0-1
+Description     : Nothing You Could Do is based on the handwriting of a photographer friend.
+URL             : https://fonts.google.com/specimen/Nothing+You+Could+Do#standard-styles
+
+Name            : ttf-sarasa-ui-sc
+Version         : 0.37.4-1
+Description     : A CJK programming font based on Iosevka and Source Han Sans. (123M/248M, only Sarasa UI SC inside)
+URL             : https://github.com/be5invis/Sarasa-Gothic
+
+Name            : ttf-times-new-roman
+Version         : 2.0-3
+Description     : Times New Roman font from Microsoft
+URL             : http://corefonts.sourceforge.net/
+
+Name            : tty-clock-git
+Version         : 185.f2f847c-1
+Description     : Analog clock in ncurses.
+URL             : http://github.com/xorg62/tty-clock
+
+Name            : vlc-bittorrent-git
+Version         : v2.14.r0.g6073355-1
+Description     : A bittorrent plugin for VLC.
+URL             : https://github.com/johang/vlc-bittorrent
+
+Name            : websocat-git
+Version         : 1.10.1.r0.g1fdfe8e-1
+Description     : Command-line client for WebSockets
+URL             : https://github.com/vi/websocat
+
+Name            : wemeet-bin
+Version         : 3.14.0.401-1
+Description     : Tencent Video Conferencing, tencent meeting 腾讯会议
+URL             : https://source.meeting.qq.com/download-center.html
+
+Name            : wpgtk
+Version         : 6.5.5-6
+Description     : A gui wallpaper chooser that changes your WM theme, GTK theme and more
+URL             : https://github.com/deviantfero/wpgtk/
+
+Name            : wps-office
+Version         : 11.1.0.11664-2
+Description     : Kingsoft Office (WPS Office) - an office productivity suite
+URL             : http://wps-community.org
+
+Name            : wps-office-fonts
+Version         : 1.0-2
+Description     : The wps-office-fonts package contains Founder Chinese fonts
+URL             : http://wps-community.org/
+
+Name            : wps-office-mime
+Version         : 11.1.0.11664-2
+Description     : Mime files provided by Kingsoft Office (WPS Office)
+URL             : http://wps-community.org
+
