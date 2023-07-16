@@ -145,8 +145,6 @@ int editorReadKey() {
           switch (seq[1]) {
           case '1':
             return HOME_KEY;
-          case '3':
-            return DEL_KEY;
           case '4':
             return END_KEY;
           case '5':
@@ -175,6 +173,8 @@ int editorReadKey() {
           return HOME_KEY;
         case 'F':
           return END_KEY;
+        case 'P':
+          return DEL_KEY;
         }
       }
     } else if (seq[0] == '0') {
