@@ -6,6 +6,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,6 +61,10 @@ typedef struct editorConfig_t {
 } editor_Config;
 
 editor_Config E;
+
+/*** prototypes ***/
+
+void editorSetStatusMessage(const char *fmt, ...);
 
 /*** terminal ***/
 
@@ -351,6 +356,32 @@ void editorInsertChar(int c) {
 }
 
 /*** file i/o ***/
+
+/**
+ * @brief converts array of erow struct into string.
+ *
+ * @param buflen buffer length
+ * @return buffer
+ */
+char *editorRowsToString(int *buflen) {
+  int totlen = 0;
+  for (int i = 0; i < E.numrows; i++) {
+    totlen += E.row[i].size + 1;
+  }
+  *buflen = totlen;
+
+  char *buf = malloc(totlen);
+  char *p = buf;
+  for (int i = 0; i < E.numrows; i++) {
+    memcpy(p, E.row[i].chars, E.row[i].size);
+    p += E.row[i].size;
+    *p = '\n';
+    p++;
+  }
+
+  return buf;
+}
+
 /**
  * @brief open an a file
  *
@@ -379,6 +410,33 @@ void editorOpen(char *filename) {
   }
   free(line);
   fclose(fp);
+}
+
+/**
+ * @brief save to disk
+ */
+void editorSave() {
+  if (E.filename == NULL)
+    return;
+
+  int len;
+  char *buf = editorRowsToString(&len);
+
+  int fd = open(E.filename, O_RDWR | O_CREAT, 0644);
+  if (fd != -1) {
+    if (ftruncate(fd, len) != -1) {
+      if (write(fd, buf, len) == len) {
+        close(fd);
+        free(buf);
+        editorSetStatusMessage("%d bytes written to disk", len);
+        return;
+      }
+    }
+    close(fd);
+  }
+
+  free(buf);
+  editorSetStatusMessage("Can't save! I/O error: %s", strerror(errno));
 }
 
 /*** append buffer ***/
@@ -643,6 +701,10 @@ void editorProcessKeypress() {
     break;
   }
 
+  case CTRL_KEY('s'):
+    editorSave();
+    break;
+
   case HOME_KEY:
     E.cx = 0;
     break;
@@ -721,7 +783,7 @@ int main(int argc, char *argv[]) {
     editorOpen(argv[1]);
   }
 
-  editorSetStatusMessage("HELP: Ctrl-Q = quit");
+  editorSetStatusMessage("HELP: Ctrl-S = save | Ctrl-Q = quit");
 
   while (1) {
     editorRefreshScreen();
