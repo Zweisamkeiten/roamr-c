@@ -901,6 +901,22 @@ void editorProcessKeypress() {
     break;
   }
 
+  case CTRL_KEY('f'):
+    editorMoveCursor(ARROW_RIGHT);
+    break;
+
+  case CTRL_KEY('b'):
+    editorMoveCursor(ARROW_LEFT);
+    break;
+
+  case CTRL_KEY('n'):
+    editorMoveCursor(ARROW_DOWN);
+    break;
+
+  case CTRL_KEY('p'):
+    editorMoveCursor(ARROW_UP);
+    break;
+
   case ARROW_LEFT:
   case ARROW_DOWN:
   case ARROW_UP:
